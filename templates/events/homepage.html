@@ -1,0 +1,97 @@
+{% extends "///layout.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% block title %}
+BU Events
+{% endblock %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Events</title>
+</head>
+
+<body>
+    {% block body %}
+    <section class="event-section">
+        <div class="leftBox">
+            <div class="content">
+                <h1>Events and shows</h1>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque adipisci minus veritatis obcaecati ex
+                    perferendis dolorum voluptate quis, nesciunt velit ullam ratione earum consequuntur incidunt. Animi
+                    minus officia quos nobis eligendi nemofficiis ad ea deserunt rem! Nesciunt quam fugit adipisci
+                    vitae
+                    est eligendi quasi repudiandae.</p>
+            </div>
+        </div>
+        <div class="events">
+            {% for event in events %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><b>{{event.EventHeading}}</b></h5>
+                    <br/>
+                    <h6 class="card-subtitle mb-2"><b>Date : </b>{{event.EventDate}}</h6>
+                    <h6 class="card-subtitle mb-2"><b>Time : </b>{{event.EventTime}}</h6>
+                    <h6 class="card-subtitle mb-2"><b>Venue : </b>{{event.EventVenue}}</h6>
+
+                    {% set session = get_session() %}
+                    {% if 'user' in session %}
+                    <div class="card-btn-container">
+
+                        <a href="/events/{{event.ID}}" data-toggle="tooltip" title="Read More">
+                            <button>
+                                <i class="fa fa-book"></i>
+                            </button>
+                        </a>
+
+                        <a href="/events/add-to-fav/{{event.ID}}" data-toggle="tooltip" title="Add To Favourites">
+                            <button>
+                                <i class="fa fa-thumbs-up"></i>
+                            </button>
+                        </a>
+                    </div>
+
+                    {% elif 'admin' in session %}
+
+<!--                if admin in logged in  ...    -->
+
+                    <div class="card-btn-container">
+
+                        <a href="/events/{{event.ID}}" data-toggle="tooltip" title="Read More">
+                            <button>
+                                <i class="fa fa-book"></i>
+                            </button>
+                        </a>
+
+                        <a href="/events/modify/{{event.ID}}" data-toggle="tooltip" title="Modify Event">
+                            <button>
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </a>
+
+                        <a href="/events/delete/{{event.ID}}" data-toggle="tooltip" title="Delete Event">
+                            <button>
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                        </a>
+
+                        <a href="/events/send-reminder/{{event.ID}}" data-toggle="tooltip" title="Send Reminder">
+                            <button>
+                                <i class="fa fa-bell"></i>
+                            </button>
+                        </a>
+                    </div>       <!-- card-btn-container ends -->
+                    {% endif %}
+
+                </div>    <!-- card-body ends -->
+            </div>    <!-- card ends -->
+            {% endfor %}
+        </div>   <!-- events ends -->
+    </section>   <!-- event-section ends -->
+    {% endblock %}
+</body>
+
+</html>
